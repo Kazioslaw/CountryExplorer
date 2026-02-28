@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="CountryExplorer.API/CountryExplorer.API.csproj" />
   <Project Path="CountryExplorer.Client/CountryExplorer.Client.csproj" />
 </Solution>
