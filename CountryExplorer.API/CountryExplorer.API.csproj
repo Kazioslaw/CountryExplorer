@@ -12,4 +12,8 @@
     <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.12.50" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CountryExplorer.Service\CountryExplorer.Service.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,12 +1,18 @@
+using System.Text.Json;
+using CountryExplorer.Service;
+using Microsoft.AspNetCore.Http.Json;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+var countriesURL = "https://restcountries.com/";
+builder.Services.AddScoped(x => new HttpClient { BaseAddress = new Uri(countriesURL) });
+builder.Services.AddScoped<CountryService>();
 builder.Services.AddCors(cors =>
 {
 	cors.AddPolicy("BlazorUIHTTPS", cors => cors
