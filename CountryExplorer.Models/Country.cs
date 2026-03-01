@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace CountryExplorer.Models
 {
 	public class Country
 	{
-		public string FullName { get; set; }
-		public string CommonName { get; set; }
-		public string FlagPath { get; set; }
+		public Name Name { get; set; }
+		public Flag Flags { get; set; }
 		public long Population { get; set; }
-		public string? Capital { get; set; }
+		public List<string>? Capital { get; set; }
 		public string Region { get; set; }
 	}
 }
