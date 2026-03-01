@@ -8,7 +8,13 @@
 		public string Region { get; set; }
 		public string Subregion { get; set; }
 		public List<string>? Capital { get; set; }
-		public Dictionary<string, Dictionary<string, string>> Currencies { get; set; }
+		public Dictionary<string, Currency> Currencies { get; set; }
 		public Dictionary<string, string> Languages { get; set; }
+	}
+
+	// Currency is here because it need to fix getting names only from returned json
+	public class Currency
+	{
+		public string Name { get; set; }
 	}
 }

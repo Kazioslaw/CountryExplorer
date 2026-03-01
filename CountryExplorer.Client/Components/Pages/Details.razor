@@ -1,0 +1,68 @@
+﻿@page "/countries/{name}/details"
+@using CountryExplorer.Service.UI
+<h3>Details</h3>
+
+@inject CountryServiceUI service;
+
+@if (country is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="card text-center mx-auto" style="width:750px; height:auto">
+        <img src="@country.Flags.Svg" class="card-img-top" style="width:750px; height: auto" alt="@country.Flags.Alt" />
+        <div class="card-body">
+            <h3 class="card-title">
+                @country.Name.Official
+            </h3>
+            <table class="table table-borderless">
+                <tr>
+                    <th><b>@nameof(country.Population)</b></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>
+                        <b>@nameof(country.Region)</b>
+                    </th>
+                    <td>@country.Region</td>
+                </tr>
+                <tr>
+                    <th>
+                        <b>@nameof(country.Subregion)</b>
+                    </th>
+                    <td>@country.Subregion</td>
+                </tr>
+                <tr>
+                    <th>
+                        <b>@nameof(country.Capital)</b>
+                    </th>
+                    <td>@country.Capital.FirstOrDefault()</td>
+                </tr>
+                <tr>
+                    <th>
+                        <b>@nameof(country.Currencies)</b>
+                    </th>
+                    <td>@(String.Join(", ", country.Currencies.Select(x => x.Value.Name)))</td>
+                </tr>
+                <tr>
+                    <th>
+                        <b>@nameof(country.Languages)</b>
+                    </th>
+                    <td>@(String.Join(", ", country.Languages.Values))</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string name { get; set; }
+    private CountryDetails? country;
+
+    protected override async Task OnInitializedAsync()
+    {
+        country = await service.GetCountryDetailsAsync(name);
+    }
+}

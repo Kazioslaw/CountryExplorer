@@ -1,0 +1,89 @@
+﻿@page "/countries"
+@inject CountryServiceUI service;
+@inject NavigationManager navigationManager;
+
+<h3>Countries</h3>
+
+<div class="search-bar-container mb-3">
+    <div class="name-filter me-3">
+        <label for="countryNameFilter" class="form-label">Search by Country Name: </label>
+        <input type="text" id="countryNameFilter" name="countryNameFilter" class="form-control form-control-sm" />
+        <div id="nameError" class="error-message text-danger" hidden>Enter valid Country Name</div>
+    </div>
+
+    <div class="regionFilter me-3">
+        <label for="regionFilter" class="form-label">Search by Region: </label>
+        <select id="regionFilter" class="form-select form-select-sm" name="regionFilter">
+            <option value="All Regions">All Regions</option>
+            <option value="Africa">Africa</option>
+            <option value="Americas">Americas</option>
+            <option value="Antarctic">Antarctic</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europe</option>
+            <option value="Oceania">Oceania</option>
+        </select>
+    </div>
+
+    <div class="populationFilter me-3">
+        <label for="populationFilter" class="form-label">Search by Population: </label>
+        <input type="number" id="populationFilter" class="form-control form-control-sm" name="populationFilter" min="0" max="15000000000" />
+        <div id="populationError" class="error-message text-danger" hidden>Country's population cannot be greater than 1.5 billion.</div>
+    </div>
+</div>
+
+@if (countries == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-sm-4 g-4">
+        @foreach (var country in countries)
+        {
+            <div class="col">
+                <div class="card h-100" @onclick="() => Details(country.Name.Common.ToLowerInvariant())" id="card-@country.Name.Common.ToLowerInvariant()">
+                    <img src="@country.Flags.Svg" class="card-img-top" alt="@country.Flags.Alt">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">@country.Name.Official</h5>
+                        <br />
+                        <br />
+                        <table class="table table-borderless">
+                            <tr>
+                                <th>
+                                    <b>@nameof(country.Population):</b>
+                                </th>
+                                <td>
+                                    @country.Population
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><b>@nameof(country.Capital):</b></th>
+                                <td>
+                                    @(country.Capital.FirstOrDefault())
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><b>@nameof(country.Region):</b></th>
+                                <td>@country.Region</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<CountryExplorer.Models.Country> countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        countries = await service.GetCountryListAsync(0, 12);
+    }
+
+    private async Task Details(string name)
+    {
+        navigationManager.NavigateTo($"/countries/{name}/details");
+    }
+}
