@@ -1,10 +1,19 @@
 using CountryExplorer.Client.Components;
+using CountryExplorer.Service.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
+
+var apiHttps = "https://localhost:7240";
+var apiHttp = "http://localhost:5133";
+builder.Services.AddScoped(x => new HttpClient
+{
+	BaseAddress = new Uri(apiHttps)
+});
+builder.Services.AddScoped<CountryServiceUI>();
 
 var app = builder.Build();
 
